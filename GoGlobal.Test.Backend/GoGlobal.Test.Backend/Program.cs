@@ -1,6 +1,8 @@
 using GoGlobal.Test.Backend.Filters;
+using GoGlobal.Test.Backend.Services;
 using GoGlobal.Test.Backend.Services.Concrete;
 using GoGlobal.Test.Backend.Services.Interfaces;
+using GoGlobal.Test.Data;
 using GoGlobal.Test.Domain;
 using GoGlobal.Test.Domain.Models;
 
@@ -34,8 +36,12 @@ builder.Services.AddTransient<RepositoryProvider<IRepositoryInfo>>(serviceProvid
         throw new Exception("InvalidProvider");
     }
 });
+builder.Services.AddTransient<TestDbContext>();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddSingleton<IMailSender>(opt =>
+{
+    return new EmailService("smtp-mail.outlook.com", "587");
+});
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
