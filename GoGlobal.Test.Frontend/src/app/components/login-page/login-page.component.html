@@ -1,0 +1,60 @@
+<form class="card" [formGroup]="form" (ngSubmit)="submit()">
+    <h2>Login to admin panel</h2>
+  
+    <div class="alert alert-danger" *ngIf="auth.error$ | async as error">
+      {{ error }}
+    </div>
+  
+    <div class="alert alert-info" *ngIf="message">
+      {{ message }}
+    </div>
+  
+    <div
+      class="form-control"
+      [ngClass]="{invalid: form.get('username').touched && form.get('username').invalid}"
+    >
+      <label for="username">Username:</label>
+      <input id="username" type="username" formControlName="username">
+      <div
+        *ngIf="form.get('username').touched && form.get('username').invalid"
+        class="validation"
+      >
+        <small *ngIf="form.get('username').errors.required">
+          Enter the username field
+        </small>
+        <small *ngIf="form.get('username').errors.username">
+          Username must be valid
+        </small>
+      </div>
+    </div>
+  
+    <div
+      class="form-control"
+      [ngClass]="{invalid: form.get('password').touched && form.get('password').invalid}"
+    >
+      <label for="password">Password:</label>
+      <input id="password" type="password" formControlName="password">
+      <div
+        class="validation"
+        *ngIf="form.get('password').touched && form.get('password').invalid"
+      >
+        <small *ngIf="form.get('password').errors.required">
+          Enter password
+        </small>
+        <small *ngIf="form.get('password').errors.minlength">
+          Password must be at least
+          {{form.get('password').errors.minlength.requiredLength}}
+          symbols. characters. Now it has
+          {{form.get('password').errors.minlength.actualLength}}
+          symbols.
+        </small>
+      </div>
+    </div>
+  
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="form.invalid || submitted"
+    >Login</button>
+  </form>
+  

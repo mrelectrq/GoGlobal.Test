@@ -1,0 +1,22 @@
+<app-alert></app-alert>
+
+<nav class="navbar bg-primary">
+  <h1 *ngIf="auth.isAuthenticated()">Home</h1>
+  <h1 *ngIf="!auth.isAuthenticated()">Login</h1>
+
+  <ul *ngIf="auth.isAuthenticated()">
+    <li routerLinkActive="active">
+      <a [routerLink]="['/cards']">Search </a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/create']">Bookmark</a>
+    </li>
+    <li>
+      <a href="#" (click)="logout($event)">Log out</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
