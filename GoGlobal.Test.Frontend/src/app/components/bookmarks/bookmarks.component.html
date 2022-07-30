@@ -1,0 +1,19 @@
+<div *ngIf="posts.length">
+  <section class="card_list">
+    <div class="card_wrap">
+      <div class="mat-elevation-z5" *ngFor="let post of posts">
+        <div>
+          <h2 class="post-name">{{ post.repositoryName }}</h2>
+          <!-- <p>{{post.date | date : 'mediumDate'}}</p> -->
+        </div>
+
+        <div class="post-content">
+          <img [src]="post.avatar" class="post-avatar" />
+          <p class="post-description">{{ post.repositoryDescription }}</p>
+        </div>
+        <button class="another-btn" (click)="deleteBookmark(post.repositoryId)">Delete</button>
+      </div>
+    </div>
+  </section>
+</div>
+  

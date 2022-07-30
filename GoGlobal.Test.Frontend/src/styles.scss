@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 :root {
-  --primary-color: #dc3545;
+  --primary-color: #56baed;
   --dark-color: #333333;
   --light-color: #f4f4f4;
-  --danger-color: #dc3545;
+  --danger-color: #56baed;
   --success-color: #28a745;
 }
 
@@ -228,7 +228,7 @@ img {
 }
 
 input[type='text'],
-input[type='username'],
+input[type='email'],
 input[type='password'],
 input[type='date'],
 select,

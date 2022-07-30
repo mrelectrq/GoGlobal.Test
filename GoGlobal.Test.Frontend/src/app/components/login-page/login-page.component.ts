@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../help/interfaces';
 import {AuthService} from '../../services/auth.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
+
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -31,13 +33,12 @@ export class LoginPageComponent implements OnInit {
     })
 
     this.form = new FormGroup({
-      email: new FormControl(null, [
+      username: new FormControl(null, [
         Validators.required,
-        Validators.email
       ]),
       password: new FormControl(null, [
         Validators.required,
-        Validators.minLength(6)
+        Validators.minLength(4)
       ])
     })
   }
@@ -49,20 +50,27 @@ export class LoginPageComponent implements OnInit {
 
     this.submitted = true
     const user: User = {
-      email: this.form.value.email,
+      username: this.form.value.username,
       password: this.form.value.password
     }
 
-    
-   // this.userService.saveUser(user)
-
-    this.auth.login(user).subscribe(() => {
+    this.auth.login(user).subscribe((resp) => {
+      console.log(resp)
+      this.setToken(resp)
       this.form.reset()
       this.router.navigate(['/cards'])
       this.submitted = false
     }, () => {
       this.submitted = false
     })
+  }
+
+  private setToken(response) {
+    if (response) {
+      localStorage.setItem('cookie', response.tokenValue)
+    } else {
+      localStorage.clear()
+    }
   }
 
 }

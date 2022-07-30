@@ -1,7 +1,7 @@
 export interface User {
-    email: string
+    username: string
     password: string
-    returnSecureToken?: boolean
+    //returnSecureToken?: boolean
   }
   
   export interface FbAuthResponse {
@@ -9,19 +9,11 @@ export interface User {
     expiresIn: string
   }
   
-  export interface Post {
-    id?: string
-    title: string
-    city: string
-    description: string
-    date: Date,
-    tags: string
-    weather: {
-      icon:string,
-      feels_like: number,
-      temp: number,
-      description: string
-    }
+  export interface IPost {
+    repositoryId?:string,
+    repositoryName: string,
+    avatar: string,
+    repositoryDescription: string,
   }
   
   export interface FbCreateResponse {
@@ -32,6 +24,5 @@ export interface User {
     apiKeyFb: string,
     production: boolean,
     fbDbUrl: string,
-    apiKey: string,
-    apiUrl: string
+    apiKey: string
   }

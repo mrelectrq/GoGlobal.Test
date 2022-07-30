@@ -11,4 +11,35 @@ form {
       margin: 0 auto;
     }
   }
+  .another-btn {
+    background-color: #56baed;
+    border: 0;
+    border-radius: 45px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 16px;
+    padding: 12px 15px;
+    bottom: 10px;
+    right: 30px;
+    letter-spacing: 1px;
+    vertical-align: bottom;
+    transition: 0.2s ease-in-out;
+  &:hover{
+      transform: scale(1.1);
+    }
+
+  }
+  
+  input[type="password"], input[type="email"]{
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  
+  input[type="password"], input[type="email"]::placeholder{
+    color: rgb(175, 175, 175);
+  }
+  
+  input[type="password"], input[type="email"]:focus {
+    border-color: rgb(68, 176, 255);
+  }
   

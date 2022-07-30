@@ -1,4 +1,4 @@
-<form class="card" [formGroup]="form" (ngSubmit)="submit()">
+<form class="card form-inline" [formGroup]="form" (ngSubmit)="submit()">
     <h2>Login to admin panel</h2>
   
     <div class="alert alert-danger" *ngIf="auth.error$ | async as error">
@@ -14,7 +14,7 @@
       [ngClass]="{invalid: form.get('username').touched && form.get('username').invalid}"
     >
       <label for="username">Username:</label>
-      <input id="username" type="username" formControlName="username">
+      <input class="form-control form-row" id="username" type="email" formControlName="username">
       <div
         *ngIf="form.get('username').touched && form.get('username').invalid"
         class="validation"
@@ -33,7 +33,7 @@
       [ngClass]="{invalid: form.get('password').touched && form.get('password').invalid}"
     >
       <label for="password">Password:</label>
-      <input id="password" type="password" formControlName="password">
+      <input class="form-control form-row" id="password" type="password" formControlName="password">
       <div
         class="validation"
         *ngIf="form.get('password').touched && form.get('password').invalid"
@@ -53,8 +53,9 @@
   
     <button
       type="submit"
-      class="btn btn-primary"
+      class="btn another-btn btn-primary"
       [disabled]="form.invalid || submitted"
     >Login</button>
   </form>
   
+

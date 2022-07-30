@@ -1,21 +1,23 @@
-<div *ngIf="posts.length; else loading">
+<form class="form-inline">
+  <input class="form-control form-row" [formControl]="searchControl" type="search" placeholder="Search" aria-label="Search">
+  <button class="another-btn btn-outline-success" (click)="search()" type="submit">Search</button>
+</form>
+<div *ngIf="posts.length">
   <section class="card_list">
     <div class="card_wrap">
       <div class="mat-elevation-z5" *ngFor="let post of posts">
         <div>
-          <h2 class="post-name">{{ post.name }}</h2>
+          <h2 class="post-name">{{ post.repositoryName }}</h2>
           <!-- <p>{{post.date | date : 'mediumDate'}}</p> -->
         </div>
 
         <div class="post-content">
           <img [src]="post.avatar" class="post-avatar" />
-          <p class="post-description">{{ post.description }}</p>
+          <p class="post-description">{{ post.repositoryDescription }}</p>
         </div>
+        <button class="another-btn" (click)="saveBookmark(post)">Add bookmark</button>
       </div>
     </div>
   </section>
 </div>
 
-<ng-template #loading>
-  <p class="text-center">Loading...</p>
-</ng-template>

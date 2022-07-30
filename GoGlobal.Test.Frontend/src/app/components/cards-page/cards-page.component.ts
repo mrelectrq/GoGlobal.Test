@@ -1,17 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PostsService } from '../../services/posts.service';
-import { Post } from '../../help/interfaces';
+import { IPost } from '../../help/interfaces';
 import { Subscription } from 'rxjs';
 import { AlertService } from '../../services/alert.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-cards-page',
+  selector: 'app-cards-page-page',
   templateUrl: './cards-page.component.html',
   styleUrls: ['./cards-page.component.scss'],
 })
 export class CardsPageComponent implements OnInit {
-  posts = [];
+  posts: IPost[] = [];
   pSub: Subscription;
+  searchControl: FormControl = new FormControl();
 
   constructor(
     private postsService: PostsService,
@@ -19,16 +21,44 @@ export class CardsPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.pSub = this.postsService.getAll().subscribe((posts) => {
-      // this.posts = posts.items;
-      posts.items.map((item: any) => {
-        this.posts.push({
-          name: item.name,
-          avatar: item.owner.avatar_url,
-          description: item.description,
+    //  if (!this.posts.length) {
+    //   console.log(this.searchControl.value)
+    //   this.pSub = this.postsService.getAll(this.searchControl.value).subscribe((posts) => {
+    //     // this.posts = posts.items;
+    //     posts.items.map((item: any) => {
+    //       this.posts.push({
+    //         repositoryName: item.full_name,
+    //         avatar: item.owner.avatar_url,
+    //         repositoryDescription: item.description,
+    //       });
+    //     });
+    //     console.log('this.posts', this.posts);
+    //   });
+    //  }
+  }
+
+  search() {
+    this.pSub = this.postsService
+      .searchForRepositories(this.searchControl.value)
+      
+      .subscribe((posts) => {
+        console.log('this.posts', posts);
+        this.posts = [];
+        posts.map((item) => {
+          this.posts.push({
+            repositoryName: item.repositoryName,
+            avatar: item.avatar,
+            repositoryDescription: item.repositoryDescription,
+          });
         });
       });
-      console.log('this.posts', this.posts);
+  }
+
+  saveBookmark(newBookmark: IPost) {
+    this.postsService.addBookmark(newBookmark).subscribe(() => {
+      this.posts = this.posts.filter(
+        (post) => post.repositoryName !== newBookmark.repositoryName
+      );
     });
   }
 

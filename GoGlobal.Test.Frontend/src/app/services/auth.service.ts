@@ -13,21 +13,11 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   get token(): string {
-    const expDate = new Date(localStorage.getItem('fb-token-exp'))
-    if (new Date() > expDate) {
-      this.logout()
-      return null
-    }
-    return localStorage.getItem('fb-token')
+    return localStorage.getItem('cookie')
   }
 
   login(user: User): Observable<any> {
-    user.returnSecureToken = true
-    return this.http.post(environment.apiUrl + '/api/User', user)
-      .pipe(
-        tap(this.setToken),
-        catchError(this.handleError.bind(this))
-      )
+    return this.http.post(`http://localhost:5100/api/User`, user)
   }
 
   logout() {
@@ -42,14 +32,14 @@ export class AuthService {
     const {message} = error.error.error
 
     switch (message) {
-      case 'INVALID_EMAIL':
-        this.error$.next('Invalid email')
+      case 'INVALID_USERNAME':
+        this.error$.next('Invalid username')
         break
       case 'INVALID_PASSWORD':
         this.error$.next('Wrong password')
         break
-      case 'EMAIL_NOT_FOUND':
-        this.error$.next('There is no such email')
+      case 'USERNAME_NOT_FOUND':
+        this.error$.next('There is no such username')
         break
     }
 
