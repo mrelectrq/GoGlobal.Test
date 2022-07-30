@@ -15,5 +15,7 @@
      run command : npm update and then npm start
 
 Using page http://localhost:4200 u can login as user using credentials: 
+
         username: simpleuser
+        
         password: Test1234$
