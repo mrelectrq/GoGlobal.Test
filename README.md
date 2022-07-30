@@ -6,9 +6,11 @@
 
 1 Open terminal Go to {Project path}/GoGlobal.Test.Backend/GoGlobal.Test.Data 
       and run command : dotnet ef database update
+      
 2 Got to {Project path}/GoGlobal.Test.Backend/GoGlobal.Test.Backend
       and run following command: dotnet run  
       Application should listen http://localhost:5100
+      
 3 Go to {Project path}/GoGlobal.Test.Backend/GoGlobal.Test.FrontEnd
      run command : npm update and then npm start
 
