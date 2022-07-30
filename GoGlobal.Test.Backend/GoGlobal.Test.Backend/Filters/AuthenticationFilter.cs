@@ -3,6 +3,7 @@ using System.Text.Encodings.Web;
 using GoGlobal.Test.Backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 
 namespace GoGlobal.Test.Backend.Filters;
 
@@ -21,15 +22,16 @@ public class AuthenticationFilter : AuthenticationHandler<ValidateHashAuthentica
     }
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        if (!Request.Cookies.ContainsKey("gglobal-Token"))
+        if (!Request.Headers.ContainsKey("Authorization"))
         {
             return AuthenticateResult.Fail("Cookies Not Found.");
         }
 
-        Request.Cookies.TryGetValue("gglobal-Token", out string token);
+        Request.Headers.TryGetValue("Authorization", out StringValues token);
+        //Request.Headers.TryGetValue("gglobal-Token", out string token);
         try
         {
-            var validToken = await _memoryCache.Get(token);
+            var validToken = await _memoryCache.Get(token.ToString());
             if (string.IsNullOrEmpty(validToken))
             {
                 return AuthenticateResult.Fail("User not Authorized");

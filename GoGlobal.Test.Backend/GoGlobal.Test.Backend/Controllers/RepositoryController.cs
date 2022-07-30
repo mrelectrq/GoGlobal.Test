@@ -76,6 +76,7 @@ public class RepositoryController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet("/bookmark")]
+    [Authorize(AuthenticationSchemes = "CustomAuth")]
     public  ActionResult<IEnumerable<Repository>> GetGithubSavedRepositories()
     {
         var repos = _dbContext.Repositories.AsEnumerable();
@@ -83,6 +84,7 @@ public class RepositoryController : ControllerBase
     }
 
     [HttpDelete("/bookmark")]
+    [Authorize(AuthenticationSchemes = "CustomAuth")]
     public async Task<ActionResult<bool>> DeleteSavedRepositories(Guid repositoryId)
     {
         var repository = _dbContext.Repositories.FirstOrDefault(m => m.RepositoryId == repositoryId);

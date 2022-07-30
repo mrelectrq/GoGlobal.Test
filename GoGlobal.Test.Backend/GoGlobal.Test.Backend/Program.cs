@@ -42,6 +42,22 @@ builder.Services.AddSingleton<IMailSender>(opt =>
 {
     return new EmailService("smtp-mail.outlook.com", "587");
 });
+builder.Services.AddCors(opt =>
+{
+    var allowedOrigins = builder.Configuration.GetSection("CORS:Uris").Get<string[]>();
+    opt.AddDefaultPolicy(builder =>
+    {
+        builder
+            .WithOrigins(allowedOrigins)
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+    opt.AddPolicy(name:"testOrigin", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+    });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -57,8 +73,8 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = string.Empty;
     });
 }
-
-app.UseHttpsRedirection();
+app.UseCors("testOrigin");
+//app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>

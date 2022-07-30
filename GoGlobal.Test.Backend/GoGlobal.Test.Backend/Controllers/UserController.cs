@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using GoGlobal.Test.Backend.Model;
 using GoGlobal.Test.Backend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,19 +15,24 @@ public class UserController :ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<string>> AuthUser(string username, string password)
+    public async Task<ActionResult<string>> AuthUser([FromBody] User credentials)
     {
-        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        if (string.IsNullOrEmpty(credentials.Username) || string.IsNullOrEmpty(credentials.Password))
         {
             return BadRequest(" Please fill the data");
         }
-        if (username.Equals("user") && password.Equals("user"))
+        if (credentials.Username.Equals("simpleuser") && credentials.Password.Equals("Test1234$"))
         {
-            HttpContext.Response.Cookies.Delete("gglobal-Token");
+            //  HttpContext.Response.Delete("gglobal-Token");
             string cookieValue = "someHashValueOfCookie";
-            HttpContext.Response.Cookies.Append("gglobal-Token", cookieValue);
-            _sessionBrain.Set(cookieValue,username);
-            return Ok("username@gmail.com");
+          //  HttpContext.Response.Cookies.Append("gglobal-Token", cookieValue);
+            _sessionBrain.Set(cookieValue,credentials.Username);
+            return Ok(new UserAuthResponse()
+            {
+                AuthToken = "gglobal-Token",
+                Email = "username@gmail.com",
+                TokenValue = cookieValue
+            });
         }
         else
         {
